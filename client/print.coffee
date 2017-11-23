@@ -21,6 +21,7 @@ emit = ($item, item) ->
 
 bind = ($item, item) ->
   $item.dblclick -> wiki.textEditor $item, item
+
   $item.find('button').click (evt) ->
     list = $item.find('li').map (i,item) ->
       "#{$(item).data('site')} #{$(item).data('slug')}"
@@ -29,6 +30,12 @@ bind = ($item, item) ->
     w.document.write "<pre>#{list.toArray().join "\n"}</pre>"
     w.window.print()
     w.document.close()
+
+  $('body').on 'new-neighbor-done', (e, site) ->
+    $item.empty()
+    emit $item, item
+    bind $item, item
+
 
 
 window.plugins.print = {emit, bind} if window?
